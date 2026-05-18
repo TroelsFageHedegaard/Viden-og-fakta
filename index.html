@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test dine fordomme om indvandring</title>
+<title>Test din viden om integration</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -416,7 +416,7 @@ function renderIntro() {
     '</div>' +
     '<button class="btn" onclick="startQuiz()" ' + (!state.groupId ? 'disabled' : '') + '>Start testen →</button>' +
   '</div>' +
-  '<p class="source-note">Spørgsmål er baseret på det originale spørgeskema fra Aalborg Universitets studie (Troels Fage Hedegaard, AAU). Fakta stammer fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">Integrationsbarometeret</a>. Forskerne bag undersøgelsen har ingen tilknytning til Udlændinge- og Integrationsministeriet.<br><br>Denne hjemmeside er udelukkende skabt til forskningsformidling. Ingen af dine svar bliver gemt eller registreret.</p>';
+  '<p class="source-note">Spørgsmål er baseret på det originale spørgeskema fra studiet bag af Troels Fage Hedegaard (AAU), Karen Nielsen Breidahl (AAU) og Rasmus Sandy Harboesgaard Nielsen (OsloMet). Fakta stammer fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">Integrationsbarometeret</a>. Forskerne bag undersøgelsen har ingen tilknytning til Udlændinge- og Integrationsministeriet.<br><br>Denne hjemmeside er udelukkende skabt til forskningsformidling. Ingen af dine svar bliver gemt eller registreret.</p>';
 }
 
 function pickGroup(id) { state.groupId = id; renderIntro(); }
@@ -538,7 +538,7 @@ function renderScore() {
         '<button class="btn" onclick="restart()">Start forfra</button>' +
       '</div>' +
     '</div>' +
-    '<p class="source-note">Kilde: Aalborg Universitets studie (Troels Fage Hedegaard, AAU · <a href="mailto:troelsfh@dps.aau.dk">troelsfh@dps.aau.dk</a>). Registerdata fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">integrationsbarometer.dk</a>. Alle svar behandles anonymt.</p>';
+    '<p class="source-note">Kilde: Troels Fage Hedegaard (AAU · <a href="mailto:troelsfh@dps.aau.dk">troelsfh@dps.aau.dk</a>), Karen Nielsen Breidahl (AAU) og Rasmus Sandy Harboesgaard Nielsen (OsloMet). Registerdata fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">integrationsbarometer.dk</a>. Alle svar behandles anonymt.</p>';
 }
 
 function restart() { state = { phase: "intro", groupId: null, qi: 0, answers: [] }; render(); }
