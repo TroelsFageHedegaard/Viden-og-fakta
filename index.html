@@ -8,24 +8,24 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #F7F5F0;
+    --bg: #f1f1f3;
     --surface: #FFFFFF;
     --border: rgba(0,0,0,0.1);
     --border-em: rgba(0,0,0,0.2);
-    --text: #1A1A1A;
-    --text-sec: #666;
-    --text-ter: #999;
-    --green: #1D9E75;
-    --green-light: #E1F5EE;
-    --green-dark: #085041;
-    --purple: #7F77DD;
-    --purple-light: #EEEDFE;
-    --purple-dark: #3C3489;
-    --amber: #BA7517;
-    --amber-light: #FAEEDA;
-    --amber-dark: #633806;
-    --red-light: #FCEBEB;
-    --red-dark: #791F1F;
+    --text: #161616;
+    --text-sec: #6b6b8e;
+    --text-ter: #b4b4c5;
+    --green: #007fa3;
+    --green-light: #d1eef6;
+    --green-dark: #005270;
+    --purple: #211a51;
+    --purple-light: #e2e2e9;
+    --purple-dark: #312965;
+    --amber: #97701f;
+    --amber-light: #ffd88c;
+    --amber-dark: #5a4210;
+    --red-light: #fdd3d4;
+    --red-dark: #c0392a;
     --radius: 12px;
     --radius-sm: 8px;
   }
@@ -60,8 +60,11 @@
 
   .aau-tag {
     font-size: 11px;
-    color: var(--text-ter);
+    color: var(--purple);
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   #app {
@@ -271,7 +274,7 @@
 
 <header>
   <span class="site-name">Viden & Fakta</span>
-  <span class="aau-tag">Aalborg Universitet · Misperceptions</span>
+  <span class="aau-tag">Aalborg Universitet</span>
 </header>
 
 <div id="app"></div>
@@ -413,7 +416,7 @@ function renderIntro() {
     '</div>' +
     '<button class="btn" onclick="startQuiz()" ' + (!state.groupId ? 'disabled' : '') + '>Start testen →</button>' +
   '</div>' +
-  '<p class="source-note">Spørgsmål er baseret på det originale spørgeskema fra Aalborg Universitets misperceptions-studie (Troels Fage Hedegaard, AAU). Fakta stammer fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">Integrationsbarometeret</a>. Forskerne bag undersøgelsen har ingen tilknytning til Udlændinge- og Integrationsministeriet.<br><br>Denne hjemmeside er udelukkende skabt til forskningsformidling. Ingen af dine svar bliver gemt eller registreret.</p>';
+  '<p class="source-note">Spørgsmål er baseret på det originale spørgeskema fra Aalborg Universitets studie (Troels Fage Hedegaard, AAU). Fakta stammer fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">Integrationsbarometeret</a>. Forskerne bag undersøgelsen har ingen tilknytning til Udlændinge- og Integrationsministeriet.<br><br>Denne hjemmeside er udelukkende skabt til forskningsformidling. Ingen af dine svar bliver gemt eller registreret.</p>';
 }
 
 function pickGroup(id) { state.groupId = id; renderIntro(); }
@@ -535,7 +538,7 @@ function renderScore() {
         '<button class="btn" onclick="restart()">Start forfra</button>' +
       '</div>' +
     '</div>' +
-    '<p class="source-note">Kilde: Aalborg Universitets misperceptions-studie (Troels Fage Hedegaard, AAU · <a href="mailto:troelsfh@dps.aau.dk">troelsfh@dps.aau.dk</a>). Registerdata fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">integrationsbarometer.dk</a>. Alle svar behandles anonymt.</p>';
+    '<p class="source-note">Kilde: Aalborg Universitets studie (Troels Fage Hedegaard, AAU · <a href="mailto:troelsfh@dps.aau.dk">troelsfh@dps.aau.dk</a>). Registerdata fra Danmarks Statistik via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">integrationsbarometer.dk</a>. Alle svar behandles anonymt.</p>';
 }
 
 function restart() { state = { phase: "intro", groupId: null, qi: 0, answers: [] }; render(); }
