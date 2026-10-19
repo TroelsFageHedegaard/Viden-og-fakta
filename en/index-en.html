@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test your knowledge about integration</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f1f1f3;
+    --surface: #FFFFFF;
+    --border: rgba(0,0,0,0.1);
+    --border-em: rgba(0,0,0,0.2);
+    --text: #161616;
+    --text-sec: #6b6b8e;
+    --text-ter: #b4b4c5;
+    --green: #007fa3;
+    --green-light: #d1eef6;
+    --green-dark: #005270;
+    --purple: #211a51;
+    --purple-light: #e2e2e9;
+    --purple-dark: #312965;
+    --amber: #97701f;
+    --amber-light: #ffd88c;
+    --amber-dark: #5a4210;
+    --red-light: #fdd3d4;
+    --red-dark: #c0392a;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  header {
+    width: 100%;
+    max-width: 620px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .site-name {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--text-ter);
+    text-transform: uppercase;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .aau-tag {
+    font-size: 11px;
+    color: var(--purple);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  #app {
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .prog-wrap { margin-bottom: 1.75rem; }
+  .prog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-ter); font-family: 'Helvetica Neue', Arial, sans-serif; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .prog-bar { height: 2px; background: var(--border); border-radius: 1px; }
+  .prog-fill { height: 100%; background: var(--green); border-radius: 1px; transition: width 0.5s ease; }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .b-menapt { background: var(--purple-light); color: var(--purple-dark); }
+  .b-other   { background: var(--amber-light);  color: var(--amber-dark);  }
+  .b-western { background: var(--green-light);  color: var(--green-dark);  }
+
+  .anchor-box {
+    background: var(--bg);
+    border-left: 2px solid var(--border-em);
+    padding: 0.65rem 0.85rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 1rem;
+    font-size: 13px;
+    color: var(--text-sec);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  h1.intro-title {
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  h2.q {
+    font-size: 17px;
+    font-weight: normal;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 0.5rem;
+  }
+
+  .footnote {
+    font-size: 12px;
+    color: var(--text-ter);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+    font-style: italic;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  p.intro-lead {
+    font-size: 16px;
+    color: var(--text-sec);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .group-pick {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .gpick {
+    padding: 0.85rem 0.6rem;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-sec);
+    line-height: 1.4;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .gpick:hover { background: var(--bg); border-color: var(--border-em); }
+  .gpick.active { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
+  .gpick strong { display: block; font-size: 12px; margin-bottom: 3px; }
+  .gpick span { font-size: 11px; opacity: 0.75; }
+
+  .slider-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 0.4rem; }
+  .slider-wrap input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 2px;
+    background: var(--border-em);
+    border-radius: 1px;
+    outline: none;
+  }
+  .slider-wrap input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--green);
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 0 0 1px var(--green);
+  }
+  .slider-wrap input[type=range]::-moz-range-thumb {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--green);
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 0 0 1px var(--green);
+  }
+  .slval {
+    font-size: 24px;
+    min-width: 64px;
+    text-align: right;
+    color: var(--text);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300;
+  }
+  .slider-ends {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-ter);
+    margin-bottom: 1.5rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 11px;
+    font-size: 15px;
+    border: 0.5px solid var(--border-em);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--bg); }
+  .btn:disabled { opacity: 0.35; cursor: default; }
+
+  .bars { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.25rem; }
+  .bar-row { display: grid; grid-template-columns: 110px 1fr 56px; align-items: center; gap: 10px; }
+  .bar-lbl { font-size: 12px; color: var(--text-sec); text-align: right; line-height: 1.3; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .bar-bg { height: 20px; background: var(--bg); border-radius: 2px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 2px; transition: width 0.7s ease; }
+  .bar-u { background: var(--purple); }
+  .bar-d { background: var(--purple); opacity: 0.35; }
+  .bar-f { background: var(--green); }
+  .bar-num { font-size: 13px; color: var(--text); font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 500; }
+
+  .verdict { padding: 0.85rem 1rem; border-radius: var(--radius-sm); font-size: 14px; line-height: 1.6; margin-bottom: 1.25rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .v-over  { background: var(--red-light);   color: var(--red-dark);   }
+  .v-under { background: var(--green-light); color: var(--green-dark); }
+  .v-spot  { background: var(--green-light); color: var(--green-dark); }
+
+  .score-wrap { text-align: center; padding: 2rem 1.5rem; margin-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); }
+  .score-big { font-size: 64px; font-weight: normal; color: var(--text); line-height: 1; }
+  .score-unit { font-size: 15px; color: var(--text-ter); margin-top: 6px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .score-desc { font-size: 14px; color: var(--text-sec); margin-top: 0.75rem; font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.5; }
+
+  table.summary { width: 100%; border-collapse: collapse; font-size: 13px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  table.summary th { font-size: 11px; color: var(--text-ter); font-weight: normal; padding-bottom: 8px; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; }
+  table.summary th:not(:first-child) { text-align: right; }
+  table.summary td { padding: 7px 0; border-top: 0.5px solid var(--border); color: var(--text-sec); vertical-align: top; }
+  table.summary td:not(:first-child) { text-align: right; }
+
+  .btn-row { display: flex; gap: 8px; }
+  .btn-row .btn { flex: 1; }
+
+  .source-note { font-size: 11px; color: var(--text-ter); margin-top: 1.5rem; line-height: 1.7; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .source-note a { color: var(--green-dark); }
+
+  .legend { display: flex; gap: 16px; margin-bottom: 1rem; font-size: 12px; color: var(--text-sec); font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 5px; vertical-align: middle; }
+
+  @media (max-width: 500px) {
+    .group-pick { grid-template-columns: 1fr; }
+    .bar-row { grid-template-columns: 80px 1fr 48px; }
+    h1.intro-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="site-name">Knowledge & Facts</span>
+  <span class="aau-tag">Aalborg University · <a href="../" style="color:inherit;margin-left:10px;text-decoration:underline">Dansk</a></span>
+</header>
+
+<div id="app"></div>
+
+<script>
+const groups = {
+  menapt: {
+    id: "menapt", label: "MENAPT countries", badge: "b-menapt",
+    desc: "Middle East, North Africa, Pakistan and Turkey",
+    questions: [
+      {
+        anchor: "Immigrants and descendants with origins in MENAPT countries made up 3.9% of the population in Denmark in 2015.",
+        q: "What percentage of Denmark's population do you estimate immigrants and their descendants with origins in MENAPT countries made up in 2025?",
+        footnote: null,
+        unit: "%", min: 0, max: 30, step: 0.5,
+        danskernes: 9.1, fact: 5.1, factLabel: "Actual share 2025",
+      },
+      {
+        anchor: "In 2016, 17.2% of all convictions for violations of the Criminal Code, among men aged 15–79, were given to immigrants and descendants with origins in MENAPT countries.",
+        q: "What percentage of convictions for violations of the Criminal Code, among men aged 15–79, do you estimate this group received in Denmark in 2023?",
+        footnote: "Criminal Code violations include, among other things, sexual offences, violent crimes and property crimes. Does not include the Traffic Act or special legislation.",
+        unit: "%", min: 0, max: 50, step: 0.5,
+        danskernes: 25.2, fact: 16.6, factLabel: "Actual share 2023",
+      },
+      {
+        anchor: "In 2015, 35% of female immigrants and descendants, aged 18–64, with origins in MENAPT countries were employed in Denmark.",
+        q: "What percentage of female immigrants and descendants, aged 18–64, with origins in MENAPT countries do you estimate were employed in Denmark in 2025?",
+        footnote: null,
+        unit: "%", min: 0, max: 100, step: 1,
+        danskernes: 39.5, fact: 55, factLabel: "Actual share 2025",
+      },
+      {
+        anchor: "In 2014, 39% of male immigrants and descendants, aged 25–39, with origins in MENAPT countries had completed a Danish vocational qualifying education.",
+        q: "What percentage of male immigrants and descendants, aged 25–39, with origins in MENAPT countries do you estimate had completed a Danish vocational qualifying education in 2024?",
+        footnote: "Vocational qualifying education includes vocational education and short-, medium- and long-cycle higher education as well as bachelor's programmes. Only immigrants who came to Denmark at the age of 0–12 are included.",
+        unit: "%", min: 0, max: 100, step: 1,
+        danskernes: 41.7, fact: 51, factLabel: "Actual share 2024",
+      },
+    ]
+  },
+  other: {
+    id: "other", label: "Other non-Western", badge: "b-other",
+    desc: "Non-Western countries excl. MENAPT",
+    questions: [
+      {
+        anchor: "Immigrants and descendants with origins in other non-Western countries made up 3.5% of the population in Denmark in 2015.",
+        q: "What percentage of Denmark's population do you estimate immigrants and their descendants with origins in other non-Western countries made up in 2025?",
+        footnote: null,
+        unit: "%", min: 0, max: 25, step: 0.5,
+        danskernes: 9.0, fact: 5.4, factLabel: "Actual share 2025",
+      },
+      {
+        anchor: "In 2016, 5.7% of all convictions for violations of the Criminal Code, among men aged 15–79, were given to immigrants and descendants from other non-Western countries.",
+        q: "What percentage of convictions for violations of the Criminal Code, among men aged 15–79, do you estimate this group received in Denmark in 2023?",
+        footnote: "Criminal Code violations include, among other things, sexual offences, violent crimes and property crimes. Does not include the Traffic Act or special legislation.",
+        unit: "%", min: 0, max: 30, step: 0.5,
+        danskernes: 11.8, fact: 6.1, factLabel: "Actual share 2023",
+      },
+      {
+        anchor: "In 2015, 50% of female immigrants and descendants, aged 18–64, with origins in other non-Western countries were employed in Denmark.",
+        q: "What percentage of female immigrants and descendants, aged 18–64, with origins in other non-Western countries do you estimate were employed in Denmark in 2025?",
+        footnote: null,
+        unit: "%", min: 0, max: 100, step: 1,
+        danskernes: 56, fact: 68, factLabel: "Actual share 2025",
+      },
+      {
+        anchor: "In 2014, 54% of male immigrants and descendants, aged 25–39, with origins in other non-Western countries had completed a Danish vocational qualifying education.",
+        q: "What percentage of male immigrants and descendants, aged 25–39, with origins in other non-Western countries do you estimate had completed a Danish vocational qualifying education in 2024?",
+        footnote: "Vocational qualifying education includes vocational education and short-, medium- and long-cycle higher education as well as bachelor's programmes. Only immigrants who came to Denmark at the age of 0–12 are included.",
+        unit: "%", min: 0, max: 100, step: 1,
+        danskernes: 54.1, fact: 64, factLabel: "Actual share 2024",
+      },
+    ]
+  },
+  western: {
+    id: "western", label: "Western countries", badge: "b-western",
+    desc: "EU countries, UK, Norway, Iceland etc.",
+    questions: [
+      {
+        anchor: "Immigrants and descendants with origins in Western countries made up 4.1% of the population in Denmark in 2015.",
+        q: "What percentage of Denmark's population do you estimate immigrants and their descendants with origins in Western countries made up in 2025?",
+        footnote: null,
+        unit: "%", min: 0, max: 25, step: 0.5,
+        danskernes: 9.4, fact: 5.8, factLabel: "Actual share 2025",
+      },
+      {
+        anchor: "In 2016, 3.7% of all convictions for violations of the Criminal Code, among men aged 15–79, were handed to immigrants or descendants with origins in Western countries.",
+        q: "What percentage of convictions for violations of the Criminal Code, among men aged 15–79, do you estimate immigrants and descendants with origins in Western countries received in Denmark in 2023?",
+        footnote: "Criminal Code violations include, among other things, sexual offences, violent crimes and property crimes. Does not include the Traffic Act or special legislation.",
+        unit: "%", min: 0, max: 30, step: 0.5,
+        danskernes: 16.6, fact: 6.5, factLabel: "Actual share 2023",
+      },
+      {
+        anchor: "In 2015, 56% of female immigrants and descendants, aged 18–64, with origins in Western countries were employed in Denmark.",
+        q: "What percentage of female immigrants, aged 18–64, with origins in Western countries do you estimate were employed in Denmark in 2025?",
+        footnote: null,
+        unit: "%", min: 0, max: 100, step: 1,
+        danskernes: 49.2, fact: 66, factLabel: "Actual share 2025",
+      },
+      {
+        anchor: "In 2014, 55% of male immigrants and descendants, aged 25–39, with origins in Western countries had completed a Danish vocational qualifying education.",
+        q: "What percentage of male immigrants, aged 25–39, with origins in Western countries do you estimate had completed a Danish vocational qualifying education in Denmark in 2024?",
+        footnote: "Vocational qualifying education includes vocational education and short-, medium- and long-cycle higher education as well as bachelor's programmes. Only immigrants who came to Denmark at the age of 0–12 are included.",
+        unit: "%", min: 0, max: 100, step: 1,
+        danskernes: 50.2, fact: 60, factLabel: "Actual share 2024",
+      },
+    ]
+  }
+};
+
+let state = { phase: "intro", groupId: null, qi: 0, answers: [] };
+const app = document.getElementById('app');
+
+function pct(v, mx) { return Math.min(100, (v / mx) * 100).toFixed(1); }
+
+function verdict(user, fact) {
+  const d = user - fact;
+  if (Math.abs(d) <= 2) return { cls: "v-spot", txt: "Spot on! You landed very close to the actual figure from register data." };
+  if (d > 0) return { cls: "v-over", txt: "You overestimated by " + Math.abs(d).toFixed(1) + " percentage points — a tendency that is widespread among Danes." };
+  return { cls: "v-under", txt: "You underestimated by " + Math.abs(d).toFixed(1) + " percentage points." };
+}
+
+function render() {
+  if (state.phase === "intro") renderIntro();
+  else if (state.phase === "question") renderQuestion();
+  else if (state.phase === "result") renderResult();
+  else renderScore();
+}
+
+function renderIntro() {
+  app.innerHTML = '<div class="card">' +
+    '<h1 class="intro-title">Test your knowledge about integration</h1>' +
+    '<p class="intro-lead">Researchers from Aalborg University have studied Danes’ perceptions and knowledge about integration. Now you can test your own perceptions against theirs.</p>' +
+    '<p style="font-size:13px;color:var(--text-sec);margin-bottom:0.75rem;font-family:\'Helvetica Neue\',Arial,sans-serif;">Choose which group you want to test yourself on:</p>' +
+    '<div class="group-pick">' +
+      '<div class="gpick ' + (state.groupId==='menapt'?'active':'') + '" onclick="pickGroup(\'menapt\')"><strong>MENAPT</strong><span>Middle East, North Africa, Pakistan &amp; Turkey</span></div>' +
+      '<div class="gpick ' + (state.groupId==='other'?'active':'') + '" onclick="pickGroup(\'other\')"><strong>Other non-Western</strong><span>Non-Western countries excl. MENAPT</span></div>' +
+      '<div class="gpick ' + (state.groupId==='western'?'active':'') + '" onclick="pickGroup(\'western\')"><strong>Western countries</strong><span>EU, UK, Norway, Iceland etc.</span></div>' +
+    '</div>' +
+    '<button class="btn" onclick="startQuiz()" ' + (!state.groupId ? 'disabled' : '') + '>Start the test →</button>' +
+  '</div>' +
+  '<p class="source-note">Questions are based on the original survey from the study by Troels Fage Hedegaard (AAU), Karen Nielsen Breidahl (AAU) and Rasmus Sandy Harboesgaard Nielsen (OsloMet). Facts come from Statistics Denmark via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">Integrationsbarometeret</a>. The researchers behind the study have no affiliation with the Ministry of Immigration and Integration.<br><br>This website was created solely for research communication. None of your answers are stored or recorded.</p>';
+}
+
+function pickGroup(id) { state.groupId = id; renderIntro(); }
+
+function startQuiz() {
+  if (!state.groupId) return;
+  state.phase = "question"; state.qi = 0; state.answers = [];
+  render();
+}
+
+function renderQuestion() {
+  var g = groups[state.groupId];
+  var q = g.questions[state.qi];
+  var total = g.questions.length;
+  var midVal = (q.max - q.min) / 2 + q.min;
+  var dec = q.step < 1 ? 1 : 0;
+  app.innerHTML =
+    '<div class="prog-wrap">' +
+      '<div class="prog-meta"><span>Question ' + (state.qi+1) + ' of ' + total + '</span><span>' + g.label + '</span></div>' +
+      '<div class="prog-bar"><div class="prog-fill" id="prog" style="width:' + (state.qi/total*100).toFixed(0) + '%"></div></div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<span class="badge ' + g.badge + '">' + g.label + '</span>' +
+      '<div class="anchor-box">' + q.anchor + '</div>' +
+      '<h2 class="q">' + q.q + '</h2>' +
+      (q.footnote ? '<p class="footnote">' + q.footnote + '</p>' : '<div style="margin-bottom:1.25rem"></div>') +
+      '<div class="slider-wrap">' +
+        '<input type="range" id="sl" min="' + q.min + '" max="' + q.max + '" step="' + q.step + '" value="' + midVal + '">' +
+        '<span class="slval" id="slv">' + midVal.toFixed(dec) + q.unit + '</span>' +
+      '</div>' +
+      '<div class="slider-ends"><span>' + q.min + q.unit + '</span><span>' + q.max + q.unit + '</span></div>' +
+      '<button class="btn" onclick="submitQ()">See the answer →</button>' +
+    '</div>';
+  document.getElementById('sl').addEventListener('input', function(e) {
+    document.getElementById('slv').textContent = parseFloat(e.target.value).toFixed(dec) + q.unit;
+  });
+}
+
+function submitQ() {
+  var q = groups[state.groupId].questions[state.qi];
+  var userVal = parseFloat(document.getElementById('sl').value);
+  state.answers.push({ q: q, userVal: userVal });
+  state.phase = "result";
+  render();
+}
+
+function renderResult() {
+  var g = groups[state.groupId];
+  var ans = state.answers[state.answers.length - 1];
+  var q = ans.q, userVal = ans.userVal;
+  var total = g.questions.length;
+  var barMax = Math.max(q.max * 0.7, q.fact, q.danskernes, userVal) * 1.2;
+  var v = verdict(userVal, q.fact);
+  var dec = q.step < 1 ? 1 : 0;
+  app.innerHTML =
+    '<div class="prog-wrap">' +
+      '<div class="prog-meta"><span>Question ' + (state.qi+1) + ' of ' + total + '</span><span>' + g.label + '</span></div>' +
+      '<div class="prog-bar"><div class="prog-fill" style="width:' + ((state.qi+1)/total*100).toFixed(0) + '%"></div></div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<span class="badge ' + g.badge + '">' + g.label + '</span>' +
+      '<p style="font-size:14px;color:var(--text-sec);margin-bottom:1.25rem;line-height:1.6;font-family:\'Helvetica Neue\',Arial,sans-serif">' + q.q + '</p>' +
+      '<div class="legend">' +
+        '<span><span class="legend-dot" style="background:var(--purple)"></span>Your guess</span>' +
+        '<span><span class="legend-dot" style="background:var(--purple);opacity:.35"></span>Danes’ guess</span>' +
+        '<span><span class="legend-dot" style="background:var(--green)"></span>' + q.factLabel + '</span>' +
+      '</div>' +
+      '<div class="bars">' +
+        '<div class="bar-row"><div class="bar-lbl">Your guess</div><div class="bar-bg"><div class="bar-fill bar-u" style="width:' + pct(userVal,barMax) + '%"></div></div><div class="bar-num">' + userVal.toFixed(dec) + q.unit + '</div></div>' +
+        '<div class="bar-row"><div class="bar-lbl">Danes’ guess</div><div class="bar-bg"><div class="bar-fill bar-d" style="width:' + pct(q.danskernes,barMax) + '%"></div></div><div class="bar-num">' + q.danskernes + q.unit + '</div></div>' +
+        '<div class="bar-row"><div class="bar-lbl">' + q.factLabel + '</div><div class="bar-bg"><div class="bar-fill bar-f" style="width:' + pct(q.fact,barMax) + '%"></div></div><div class="bar-num">' + q.fact + q.unit + '</div></div>' +
+      '</div>' +
+      '<div class="verdict ' + v.cls + '">' + v.txt + '</div>' +
+      '<button class="btn" onclick="nextQ()">' + (state.qi + 1 < total ? 'Next question →' : 'See your overall result →') + '</button>' +
+    '</div>';
+}
+
+function nextQ() {
+  state.qi++;
+  if (state.qi >= groups[state.groupId].questions.length) { state.phase = "score"; render(); }
+  else { state.phase = "question"; render(); }
+}
+
+function renderScore() {
+  var g = groups[state.groupId];
+  var totalErr = 0, overCount = 0;
+  state.answers.forEach(function(a) {
+    totalErr += Math.abs(a.userVal - a.q.fact);
+    if (a.userVal > a.q.fact) overCount++;
+  });
+  var avg = (totalErr / state.answers.length).toFixed(1);
+  var overPct = Math.round(overCount / state.answers.length * 100);
+  var scoreDesc = avg < 4 ? "Impressive accuracy — you are very close to reality." :
+    avg < 10 ? "Quite good — but there are nuances to pick up." :
+    "Your estimates deviate markedly from the register data.";
+
+  var rows = state.answers.map(function(a) {
+    var diff = a.userVal - a.q.fact;
+    var sign = diff > 0 ? '+' : '';
+    var col = diff > 2 ? 'var(--red-dark)' : diff < -2 ? 'var(--green-dark)' : 'var(--green)';
+    var shortQ = a.q.q.length > 60 ? a.q.q.substring(0,60) + '…' : a.q.q;
+    return '<tr><td style="padding-right:8px">' + shortQ + '</td><td>' + a.userVal.toFixed(1) + '%</td><td style="color:var(--green)">' + a.q.fact + '%</td><td style="color:' + col + ';font-weight:500">' + sign + diff.toFixed(1) + '</td></tr>';
+  }).join('');
+
+  app.innerHTML =
+    '<div class="card">' +
+      '<div class="score-wrap">' +
+        '<div class="score-big">' + avg + '</div>' +
+        '<div class="score-unit">average deviation in percentage points</div>' +
+        '<div class="score-desc">' + scoreDesc + '</div>' +
+      '</div>' +
+      '<p style="font-size:14px;color:var(--text-sec);margin:1rem 0;line-height:1.6;font-family:\'Helvetica Neue\',Arial,sans-serif">You overestimated in <strong style="color:var(--text)">' + overPct + '%</strong> of cases. Danes generally tend to overestimate crime and underestimate employment and educational attainment.</p>' +
+      '<table class="summary">' +
+        '<thead><tr><th>Question</th><th>Your guess</th><th style="color:var(--green)">Fact</th><th>Difference</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+      '</table>' +
+      '<div class="btn-row" style="margin-top:1.25rem">' +
+        '<button class="btn" onclick="restart()">Try another group</button>' +
+        '<button class="btn" onclick="restart()">Start over</button>' +
+      '</div>' +
+    '</div>' +
+    '<p class="source-note">Source: Troels Fage Hedegaard (AAU · <a href="mailto:troelsfh@dps.aau.dk">troelsfh@dps.aau.dk</a>), Karen Nielsen Breidahl (AAU) and Rasmus Sandy Harboesgaard Nielsen (OsloMet). Register data from Statistics Denmark via <a href="https://integrationsbarometer.dk/tal-og-analyser" target="_blank">integrationsbarometer.dk</a>. All answers are treated anonymously.</p>';
+}
+
+function restart() { state = { phase: "intro", groupId: null, qi: 0, answers: [] }; render(); }
+
+render();
+</script>
+</body>
+</html>
